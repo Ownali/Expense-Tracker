@@ -1,11 +1,11 @@
 # Spendly – Expense Tracker
 
-A full-stack expense tracking web app built with React + Node.js/Express + MongoDb.
+A full-stack expense tracking web app built with React + Node.js/Express + SQLite.
 
 ## Tech Stack
 
 **Frontend:** React 18, Vite, React Router v6, Recharts, Context API, Custom Hooks  
-**Backend:** Node.js, Express, MongoDb, JWT, bcryptjs  
+**Backend:** Node.js, Express, SQLite (sql.js), JWT, bcryptjs  
 **Styling:** Plain CSS (single file)
 
 ---

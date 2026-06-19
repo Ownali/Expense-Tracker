@@ -56,37 +56,32 @@ export default function Login() {
 
           {error && <div className="error-msg">{error}</div>}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} style={{ marginTop: "1.5rem" }}>
             <div className="form-group">
-              <label>Email address</label>
-              <input
-                ref={emailRef}
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoFocus
-              />
+              <label>Email Address</label>
+              <input ref={emailRef} type="email" placeholder="you@example.com"
+                value={email} onChange={(e) => setEmail(e.target.value)} required autoFocus />
             </div>
             <div className="form-group">
               <label>Password</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <input type="password" placeholder="••••••••"
+                value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
+
+            <div style={{ textAlign: "right", marginBottom: "1.1rem", marginTop: "-0.4rem" }}>
+              <a onClick={() => navigate("/forgot-password")}
+                style={{ fontSize: "0.85rem", color: "var(--primary)", fontWeight: 600, cursor: "pointer" }}>
+                Forgot password?
+              </a>
+            </div>
+
             <button className="btn btn-primary" type="submit" disabled={loading}>
               {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
 
           <div className="auth-switch">
-            Don't have an account?{" "}
-            <a onClick={() => navigate("/register")}>Create one</a>
+            Don't have an account? <a onClick={() => navigate("/register")}>Create one</a>
           </div>
         </div>
       </div>

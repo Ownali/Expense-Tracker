@@ -4,8 +4,9 @@ const User = require("../models/User");
 
 const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const user = await User.findById(req.user.id).select("-password -securityAnswer");
+    if (!user)
+    return res.status(404).json({ message: "User not found" });
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
@@ -18,7 +19,6 @@ const updateProfile = async (req, res) => {
     if (!name || !email)
       return res.status(400).json({ message: "Name and email are required" });
 
-    // Check if email is taken by another user
     const existing = await User.findOne({ email, _id: { $ne: req.user.id } });
     if (existing)
       return res.status(409).json({ message: "Email already in use by another account" });
@@ -27,9 +27,8 @@ const updateProfile = async (req, res) => {
       req.user.id,
       { name, email },
       { new: true }
-    ).select("-password");
+    ).select("-password -securityAnswer");
 
-    // Generate new token with updated info
     const token = jwt.sign(
       { id: user._id, name: user.name, email: user.email },
       process.env.JWT_SECRET,
@@ -69,4 +68,25 @@ const updatePassword = async (req, res) => {
   }
 };
 
-module.exports = { getProfile, updateProfile, updatePassword };
+const updateSecurityQuestion = async (req, res) => {
+  try {
+    const { securityQuestion, securityAnswer, password } = req.body;
+    if (!securityQuestion || !securityAnswer || !password)
+      return res.status(400).json({ message: "All fields are required" });
+
+    const user = await User.findById(req.user.id);
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+      return res.status(401).json({ message: "Current password is incorrect" });
+
+    user.securityQuestion = securityQuestion;
+    user.securityAnswer = await bcrypt.hash(securityAnswer.toLowerCase().trim(), 10);
+    await user.save();
+
+    res.status(200).json({ message: "Security question updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+module.exports = { getProfile, updateProfile, updatePassword, updateSecurityQuestion };
