@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
-
-const API = "http://localhost:5000/api";
+import API from "../config/api";
 
 const SECURITY_QUESTIONS = [
   "What was the name of your first pet?",
@@ -137,7 +136,8 @@ export default function Profile() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+      {/* Responsive grid: 2 cols on desktop, 1 col on mobile */}
+      <div className="profile-grid">
 
         {/* Update Profile */}
         <div className="card">
@@ -181,15 +181,15 @@ export default function Profile() {
           </form>
         </div>
 
-        {/* Security Question */}
-        <div className="card" style={{ gridColumn: "1 / -1" }}>
+        {/* Security Question — full width */}
+        <div className="card profile-grid-full">
           <div className="card-header"><span className="card-title">🔐 Security Question for Password Recovery</span></div>
           <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "1rem" }}>
             This question is used to verify your identity if you forget your password. Enter your current password to change it.
           </p>
           {sqMsg && <div className={sqMsg.type === "success" ? "success-msg" : "error-msg"}>{sqMsg.text}</div>}
           <form onSubmit={handleSqSubmit}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem" }}>
+            <div className="security-question-grid">
               <div className="form-group">
                 <label>Security Question</label>
                 <select name="securityQuestion" value={sqForm.securityQuestion} onChange={handleSqChange} required>

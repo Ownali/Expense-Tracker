@@ -1,7 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 /* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   --primary: #7c6ff7;
@@ -786,6 +786,23 @@ body {
 
 .clear-filter-btn:hover { color: var(--danger); }
 
+/* ===== PROFILE PAGE GRID ===== */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.profile-grid-full {
+  grid-column: 1 / -1;
+}
+
+.security-question-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 960px) {
   .auth-page { grid-template-columns: 1fr; }
@@ -795,6 +812,8 @@ body {
   .main-content { padding: 1.25rem; }
   .stats-grid { grid-template-columns: 1fr; }
   .charts-grid { grid-template-columns: 1fr; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .security-question-grid { grid-template-columns: 1fr; }
 }
 
 /* ===== SUCCESS MESSAGE ===== */

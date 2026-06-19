@@ -38,7 +38,8 @@ const register = async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("register error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -49,12 +50,12 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
 
     const user = await User.findOne({ email });
-    if (!user) 
-    return res.status(404).json({ message: "User not found" });
+    if (!user)
+      return res.status(404).json({ message: "User not found" });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) 
-    return res.status(401).json({ message: "Invalid credentials" });
+    if (!isMatch)
+      return res.status(401).json({ message: "Invalid credentials" });
 
     const token = generateToken(user);
     res.status(200).json({
@@ -63,7 +64,8 @@ const login = async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("login error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -71,18 +73,19 @@ const login = async (req, res) => {
 const getSecurityQuestion = async (req, res) => {
   try {
     const { email } = req.body;
-    if (!email) 
-    return res.status(400).json({ message: "Email is required" });
+    if (!email)
+      return res.status(400).json({ message: "Email is required" });
 
     const user = await User.findOne({ email });
     if (!user)
-     return res.status(404).json({ message: "No account found with this email" });
+      return res.status(404).json({ message: "No account found with this email" });
     if (!user.securityQuestion)
       return res.status(400).json({ message: "No security question set for this account" });
 
     res.status(200).json({ securityQuestion: user.securityQuestion });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("getSecurityQuestion error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -111,7 +114,8 @@ const resetPassword = async (req, res) => {
 
     res.status(200).json({ message: "Password reset successfully. You can now log in." });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("resetPassword error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 

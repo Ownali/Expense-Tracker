@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
-const API = "http://localhost:5000/api";
+import API from "../config/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -42,10 +41,10 @@ export default function Login() {
         <h2>Take control of your finances</h2>
         <p>Track income and expenses, visualize spending patterns, and reach your financial goals.</p>
         <ul className="auth-banner-features">
-          <li>Track income & expenses</li>
+          <li>Track income &amp; expenses</li>
           <li>Visual spending dashboard</li>
-          <li>Filter by category & month</li>
-          <li>Secure & private</li>
+          <li>Filter by category &amp; month</li>
+          <li>Secure &amp; private</li>
         </ul>
       </div>
 
@@ -81,7 +80,7 @@ export default function Login() {
           </form>
 
           <div className="auth-switch">
-            Don't have an account? <a onClick={() => navigate("/register")}>Create one</a>
+            Don&apos;t have an account? <a onClick={() => navigate("/register")}>Create one</a>
           </div>
         </div>
       </div>
