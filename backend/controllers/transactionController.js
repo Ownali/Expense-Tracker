@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Transaction = require("../models/Transaction");
 
 const getTransactions = async (req, res) => {
@@ -15,7 +16,8 @@ const getTransactions = async (req, res) => {
     const transactions = await Transaction.find(filter).sort({ date: -1, createdAt: -1 });
     res.status(200).json(transactions);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("getTransactions error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -37,7 +39,8 @@ const addTransaction = async (req, res) => {
 
     res.status(201).json(transaction);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("addTransaction error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -58,7 +61,8 @@ const updateTransaction = async (req, res) => {
     await transaction.save();
     res.status(200).json(transaction);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("updateTransaction error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -73,16 +77,17 @@ const deleteTransaction = async (req, res) => {
 
     res.status(200).json({ message: "Transaction deleted" });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("deleteTransaction error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 const getSummary = async (req, res) => {
   try {
     const { month } = req.query;
-    const userId = req.user.id;
+    const userId = new mongoose.Types.ObjectId(req.user.id);
 
-    const matchStage = { userId: new (require("mongoose").Types.ObjectId)(userId) };
+    const matchStage = { userId };
     if (month) matchStage.date = { $regex: `^${month}` };
 
     // Totals
@@ -123,7 +128,7 @@ const getSummary = async (req, res) => {
     ]);
 
     // By month (last 6 months)
-    const allMatch = { userId: new (require("mongoose").Types.ObjectId)(userId) };
+    const allMatch = { userId };
     const by_month = await Transaction.aggregate([
       { $match: allMatch },
       {
@@ -150,7 +155,8 @@ const getSummary = async (req, res) => {
       by_month,
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("getSummary error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 

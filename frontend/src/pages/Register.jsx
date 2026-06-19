@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
-const API = "http://localhost:5000/api";
+import API from "../config/api";
 
 const SECURITY_QUESTIONS = [
   "What was the name of your first pet?",
@@ -63,7 +62,7 @@ export default function Register() {
         <p>Join Spendly and take control of your money today.</p>
         <ul className="auth-banner-features">
           <li>Free to use, always</li>
-          <li>Beautiful charts & insights</li>
+          <li>Beautiful charts &amp; insights</li>
           <li>Secure password recovery</li>
           <li>Your data stays private</li>
         </ul>

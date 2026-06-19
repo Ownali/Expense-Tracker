@@ -6,10 +6,11 @@ const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password -securityAnswer");
     if (!user)
-    return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("getProfile error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -41,7 +42,8 @@ const updateProfile = async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("updateProfile error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -64,7 +66,8 @@ const updatePassword = async (req, res) => {
 
     res.status(200).json({ message: "Password updated successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("updatePassword error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -85,7 +88,8 @@ const updateSecurityQuestion = async (req, res) => {
 
     res.status(200).json({ message: "Security question updated successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.error("updateSecurityQuestion error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
